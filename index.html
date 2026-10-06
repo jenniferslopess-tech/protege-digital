@@ -1,0 +1,1862 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b3b4b">
+    <meta name="description" content="Orientações iniciais e práticas para situações de violência e segurança digital.">
+    <title>Protege Digital | Orientação segura</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #18333d;
+            --muted: #526b73;
+            --brand: #0b5361;
+            --brand-dark: #083d4a;
+            --accent: #b9f1dc;
+            --surface: #ffffff;
+            --canvas: #f3f8f7;
+            --line: #d8e5e2;
+            --warning-bg: #fff4de;
+            --warning-ink: #63410b;
+            --shadow: 0 18px 50px rgba(12, 54, 64, 0.09);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-width: 320px;
+            min-height: 100vh;
+            margin: 0;
+            color: var(--ink);
+            background:
+                radial-gradient(ellipse at 85% 0%, rgba(185, 241, 220, 0.42), transparent 32rem),
+                var(--canvas);
+            line-height: 1.6;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button:focus-visible,
+        input:focus-visible + span {
+            outline: 3px solid #e19b36;
+            outline-offset: 3px;
+        }
+
+        .site-header {
+            color: #fff;
+            background: var(--brand-dark);
+        }
+
+        .primary-nav {
+            position: sticky;
+            z-index: 5;
+            top: 0;
+            border-bottom: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(12px);
+        }
+
+        .nav-inner {
+            display: flex;
+            width: min(100% - 2rem, 1060px);
+            gap: 0.35rem;
+            overflow-x: auto;
+            margin-inline: auto;
+            padding-block: 0.6rem;
+            scrollbar-width: thin;
+        }
+
+        .nav-button {
+            flex: 0 0 auto;
+            min-height: 40px;
+            padding: 0.45rem 0.75rem;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            color: var(--muted);
+            background: transparent;
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-weight: 700;
+        }
+
+        .nav-button:hover,
+        .nav-button[aria-current="page"] {
+            border-color: var(--line);
+            color: var(--brand-dark);
+            background: #edf7f3;
+        }
+
+        .header-inner,
+        main,
+        .site-footer {
+            width: min(100% - 2rem, 1060px);
+            margin-inline: auto;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-height: 76px;
+            font-weight: 750;
+            letter-spacing: 0.01em;
+        }
+
+        .brand-mark {
+            display: grid;
+            width: 42px;
+            height: 42px;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 1.35rem;
+        }
+
+        .brand-name {
+            font-size: 1.1rem;
+        }
+
+        main {
+            padding-block: clamp(2.5rem, 7vw, 5rem);
+        }
+
+        .intro {
+            max-width: 690px;
+            margin-bottom: 2rem;
+        }
+
+        .eyebrow {
+            margin: 0 0 0.45rem;
+            color: var(--brand);
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        h1,
+        h2,
+        h3,
+        p {
+            margin-top: 0;
+        }
+
+        h1 {
+            margin-bottom: 0.75rem;
+            font-size: clamp(2rem, 5vw, 3.25rem);
+            line-height: 1.12;
+            letter-spacing: -0.045em;
+        }
+
+        .intro > p:last-child {
+            max-width: 620px;
+            margin-bottom: 0;
+            color: var(--muted);
+            font-size: 1.08rem;
+        }
+
+        .urgent-note {
+            display: flex;
+            gap: 0.9rem;
+            align-items: flex-start;
+            margin: 1.75rem 0 2rem;
+            padding: 1rem 1.15rem;
+            border: 1px solid #f1d99e;
+            border-radius: 14px;
+            color: var(--warning-ink);
+            background: var(--warning-bg);
+        }
+
+        .urgent-note strong {
+            display: block;
+            margin-bottom: 0.15rem;
+        }
+
+        .urgent-icon {
+            flex: 0 0 auto;
+            font-size: 1.25rem;
+        }
+
+        .section-heading {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.9rem;
+        }
+
+        .option-button {
+            display: flex;
+            min-height: 82px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.1rem 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            color: var(--ink);
+            background: var(--surface);
+            box-shadow: 0 4px 14px rgba(12, 54, 64, 0.035);
+            cursor: pointer;
+            text-align: left;
+            transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+        }
+
+        .option-button:hover {
+            transform: translateY(-2px);
+            border-color: #8abcb2;
+            box-shadow: var(--shadow);
+        }
+
+        .option-label {
+            font-weight: 700;
+            line-height: 1.35;
+        }
+
+        .option-arrow {
+            flex: 0 0 auto;
+            color: var(--brand);
+            font-size: 1.25rem;
+        }
+
+        .privacy-note {
+            margin: 1.25rem 0 0;
+            color: var(--muted);
+            font-size: 0.91rem;
+        }
+
+        .triage-panel {
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+
+        .triage-heading {
+            padding: clamp(1.35rem, 4vw, 2.25rem);
+            border-bottom: 1px solid var(--line);
+            background: linear-gradient(135deg, #f5fbf8, #eaf5f2);
+        }
+
+        .triage-heading h1 {
+            margin-bottom: 0.6rem;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+        }
+
+        .triage-heading p:last-child {
+            max-width: 700px;
+            margin-bottom: 0;
+            color: var(--muted);
+        }
+
+        .triage-content {
+            display: grid;
+            gap: 1.5rem;
+            padding: clamp(1.25rem, 4vw, 2.25rem);
+        }
+
+        .content-block {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        .content-block h2,
+        .content-block legend {
+            margin-bottom: 0.8rem;
+            color: var(--ink);
+            font-size: 1.12rem;
+            font-weight: 780;
+        }
+
+        .question-list {
+            display: grid;
+            gap: 0.65rem;
+        }
+
+        .question-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+            padding: 0.8rem 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            color: var(--muted);
+            cursor: pointer;
+        }
+
+        .question-option input {
+            width: 1.1rem;
+            height: 1.1rem;
+            flex: 0 0 auto;
+            margin: 0.18rem 0 0;
+            accent-color: var(--brand);
+        }
+
+        .question-option:has(input:checked) {
+            border-color: #83b8ad;
+            color: var(--ink);
+            background: #f3faf7;
+        }
+
+        .steps-list {
+            display: grid;
+            gap: 0.7rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            counter-reset: step;
+        }
+
+        .steps-list li {
+            position: relative;
+            min-height: 42px;
+            padding: 0.55rem 0 0.55rem 3.1rem;
+            color: var(--muted);
+            counter-increment: step;
+        }
+
+        .steps-list li::before {
+            position: absolute;
+            top: 0.35rem;
+            left: 0;
+            display: grid;
+            width: 32px;
+            height: 32px;
+            place-items: center;
+            border-radius: 50%;
+            color: var(--brand-dark);
+            background: #e6f5ef;
+            content: counter(step);
+            font-size: 0.86rem;
+            font-weight: 800;
+        }
+
+        .specialized-note {
+            padding: 1rem 1.1rem;
+            border-left: 4px solid var(--brand);
+            border-radius: 0 12px 12px 0;
+            color: var(--muted);
+            background: #f2f8f7;
+        }
+
+        .specialized-note h2 {
+            margin-bottom: 0.35rem;
+            font-size: 1rem;
+        }
+
+        .specialized-note p {
+            margin-bottom: 0;
+        }
+
+        .triage-alert {
+            padding: 1rem 1.1rem;
+            border: 1px solid #f1d99e;
+            border-radius: 12px;
+            color: var(--warning-ink);
+            background: var(--warning-bg);
+        }
+
+        .triage-alert strong {
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .check-button,
+        .back-button {
+            min-height: 46px;
+            padding: 0.65rem 1rem;
+            border: 0;
+            border-radius: 11px;
+            font-weight: 750;
+            cursor: pointer;
+        }
+
+        .check-button {
+            color: #fff;
+            background: var(--brand);
+        }
+
+        .check-button:hover {
+            background: var(--brand-dark);
+        }
+
+        .check-result {
+            padding: 0.9rem 1rem;
+            border-radius: 12px;
+            color: var(--brand-dark);
+            background: #eaf7f1;
+        }
+
+        .check-result p {
+            margin-bottom: 0;
+        }
+
+        .detail-list {
+            display: grid;
+            gap: 0.65rem;
+            margin: 0;
+            padding-left: 1.3rem;
+            color: var(--muted);
+        }
+
+        .chronology-form {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .chronology-field {
+            display: grid;
+            gap: 0.35rem;
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        .chronology-field input,
+        .chronology-field textarea {
+            width: 100%;
+            padding: 0.7rem 0.8rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            color: var(--ink);
+            background: #fff;
+            font-weight: 400;
+        }
+
+        .chronology-field textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .chronology-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+        }
+
+        .chronology-list {
+            display: grid;
+            gap: 0.7rem;
+            margin: 0;
+            padding-left: 1.4rem;
+        }
+
+        .chronology-list li {
+            padding-left: 0.25rem;
+        }
+
+        .chronology-date {
+            display: block;
+            color: var(--brand);
+            font-size: 0.9rem;
+            font-weight: 750;
+        }
+
+        .report-output {
+            overflow-wrap: anywhere;
+            white-space: pre-wrap;
+            padding: 1rem;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            color: var(--ink);
+            background: #f8fbfa;
+        }
+
+        .back-button {
+            margin: 0 clamp(1.25rem, 4vw, 2.25rem) clamp(1.25rem, 4vw, 2.25rem);
+            border: 1px solid var(--line);
+            color: var(--brand-dark);
+            background: #fff;
+        }
+
+        .back-button:hover {
+            border-color: #83b8ad;
+            background: #f5fbf8;
+        }
+
+        .site-footer {
+            padding: 0 0 2.5rem;
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        .site-footer p {
+            margin-bottom: 0.4rem;
+        }
+
+        .page-intro {
+            max-width: 720px;
+            margin-bottom: 1.7rem;
+        }
+
+        .page-intro > p:last-child {
+            margin-bottom: 0;
+            color: var(--muted);
+        }
+
+        .page-actions,
+        .resource-grid,
+        .help-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.9rem;
+        }
+
+        .resource-card,
+        .help-card,
+        .surface-card {
+            padding: 1.1rem;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: var(--surface);
+            box-shadow: 0 4px 14px rgba(12, 54, 64, 0.035);
+        }
+
+        .resource-card h3,
+        .help-card h3,
+        .surface-card h2 {
+            margin-bottom: 0.45rem;
+            font-size: 1.08rem;
+        }
+
+        .resource-card p,
+        .help-card p,
+        .surface-card p {
+            margin-bottom: 0.65rem;
+            color: var(--muted);
+        }
+
+        .resource-card p:last-child,
+        .help-card p:last-child,
+        .surface-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .card-link {
+            display: inline-block;
+            margin-top: 0.45rem;
+            color: var(--brand);
+            font-weight: 750;
+            text-underline-offset: 3px;
+        }
+
+        .inline-form {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.8rem;
+        }
+
+        .form-field {
+            display: grid;
+            gap: 0.35rem;
+            color: var(--ink);
+            font-size: 0.93rem;
+            font-weight: 700;
+        }
+
+        .form-field input,
+        .form-field select,
+        .form-field textarea {
+            width: 100%;
+            min-height: 44px;
+            padding: 0.65rem 0.75rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            color: var(--ink);
+            background: #fff;
+            font: inherit;
+            font-weight: 400;
+        }
+
+        .form-field textarea {
+            min-height: 96px;
+            resize: vertical;
+        }
+
+        .evidence-item {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.9rem 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .evidence-item:last-child {
+            border-bottom: 0;
+        }
+
+        .evidence-item h3 {
+            margin-bottom: 0.25rem;
+            font-size: 1rem;
+        }
+
+        .evidence-item p {
+            margin-bottom: 0.2rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+            overflow-wrap: anywhere;
+        }
+
+        .delete-button {
+            flex: 0 0 auto;
+            min-height: 38px;
+            padding: 0.4rem 0.65rem;
+            border: 1px solid #e5c9c5;
+            border-radius: 9px;
+            color: #813a31;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .chat-window {
+            display: grid;
+            min-height: 140px;
+            align-content: start;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: #f8fbfa;
+        }
+
+        .chat-message {
+            max-width: 85%;
+            padding: 0.75rem 0.9rem;
+            border-radius: 12px;
+            color: var(--ink);
+            background: #eaf5f1;
+        }
+
+        .chat-message.user-message {
+            justify-self: end;
+            background: #eaf0f8;
+        }
+
+        .chat-status {
+            margin-top: 0.65rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .page-back {
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+            border: 0;
+            color: var(--brand);
+            background: transparent;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 750;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        @media (max-width: 640px) {
+            .header-inner,
+            main,
+            .site-footer {
+                width: min(100% - 1.25rem, 1060px);
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+                gap: 0.7rem;
+            }
+
+            .option-button {
+                min-height: 70px;
+            }
+
+            .nav-inner {
+                width: min(100% - 1.25rem, 1060px);
+            }
+
+            .page-actions,
+            .resource-grid,
+            .help-grid,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .urgent-note {
+                padding: 0.9rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <span class="brand-mark" aria-hidden="true">🛡️</span>
+            <span class="brand-name">Protege Digital</span>
+        </div>
+    </header>
+
+    <nav class="primary-nav" aria-label="Navegação principal">
+        <div class="nav-inner">
+            <button class="nav-button" type="button" data-page-link="inicio" aria-current="page">Início</button>
+            <button class="nav-button" type="button" data-page-link="pagina-triagem">Triagem</button>
+            <button class="nav-button" type="button" data-page-link="crimes-digitais">Entenda os crimes digitais</button>
+            <button class="nav-button" type="button" data-page-link="encontre-ajuda">Encontre ajuda</button>
+            <button class="nav-button" type="button" data-page-link="minhas-evidencias">Minhas evidências</button>
+            <button class="nav-button" type="button" data-page-link="orientacao-juridica">Orientação jurídica</button>
+            <button class="nav-button" type="button" data-page-link="apoio-emocional">Apoio emocional</button>
+            <button class="nav-button" type="button" data-page-link="assistente">Assistente Protege Digital</button>
+            <button class="nav-button" type="button" data-page-link="fontes">Fontes e referências</button>
+        </div>
+    </nav>
+
+    <main>
+        <section id="inicio" aria-labelledby="titulo-inicio">
+            <div class="intro">
+                <p class="eyebrow">Orientação segura e acolhedora</p>
+                <h1 id="titulo-inicio">Proteja-se. Entenda. Encontre apoio.</h1>
+                <p>
+                    O Protege Digital reúne orientações iniciais para situações de segurança
+                    e violência digital, ajudando você a entender opções e organizar informações.
+                </p>
+            </div>
+
+            <aside class="urgent-note" aria-label="Ajuda em situação de emergência">
+                <span class="urgent-icon" aria-hidden="true">!</span>
+                <div>
+                    <strong>Está em perigo imediato?</strong>
+                    Procure o serviço de emergência adequado. O Protege Digital não substitui
+                    atendimento de emergência. No Brasil, Polícia Militar: 190; emergência
+                    médica: SAMU 192.
+                </div>
+            </aside>
+
+            <div class="page-actions">
+                <button class="option-button" type="button" data-page-link="pagina-triagem">
+                    <span class="option-label">Preciso de ajuda</span><span class="option-arrow" aria-hidden="true">→</span>
+                </button>
+                <button class="option-button" type="button" data-page-link="crimes-digitais">
+                    <span class="option-label">Entender o que aconteceu</span><span class="option-arrow" aria-hidden="true">→</span>
+                </button>
+            </div>
+            <p class="privacy-note">
+                <strong>Proteja seus dados:</strong> não informe senhas, códigos de autenticação,
+                números completos de cartão ou outras informações desnecessárias. Este protótipo
+                funciona no seu navegador e não envia seus relatos a um servidor.
+            </p>
+        </section>
+
+        <section id="pagina-triagem" class="app-page" aria-labelledby="titulo-menu-triagem" hidden>
+            <div class="page-intro">
+                <p class="eyebrow">Triagem acolhedora</p>
+                <h1 id="titulo-menu-triagem">O que aconteceu com você?</h1>
+                <p>Escolha a situação que mais se aproxima. Você pode voltar a esta lista quando quiser.</p>
+            </div>
+            <aside class="urgent-note">
+                <span class="urgent-icon" aria-hidden="true">!</span>
+                <div><strong>Perigo físico imediato?</strong> Procure um local seguro e o serviço de emergência adequado.</div>
+            </aside>
+            <div class="options-grid" aria-label="Situações para triagem">
+                <button class="option-button" type="button" data-triage="golpe">
+                    <span class="option-label">Sofri um golpe</span><span class="option-arrow" aria-hidden="true">→</span>
+                </button>
+                <button class="option-button" type="button" data-triage="conta">
+                    <span class="option-label">Minha conta foi invadida</span><span class="option-arrow" aria-hidden="true">→</span>
+                </button>
+                <button class="option-button" type="button" data-triage="ameaca">
+                    <span class="option-label">Sofri ameaça ou coerção</span><span class="option-arrow" aria-hidden="true">→</span>
+                </button>
+                <button class="option-button" type="button" data-triage="intimidade">
+                    <span class="option-label">Minha intimidade foi exposta</span><span class="option-arrow" aria-hidden="true">→</span>
+                </button>
+                <button class="option-button" type="button" data-triage="perseguicao">
+                    <span class="option-label">Sofri cyberbullying ou perseguição</span><span class="option-arrow" aria-hidden="true">→</span>
+                </button>
+                <button class="option-button" type="button" data-triage="dados">
+                    <span class="option-label">Meus dados pessoais foram vazados</span><span class="option-arrow" aria-hidden="true">→</span>
+                </button>
+                <button class="option-button" type="button" data-triage="crianca">
+                    <span class="option-label">Criança ou adolescente sofreu violência digital</span><span class="option-arrow" aria-hidden="true">→</span>
+                </button>
+                <button class="option-button" type="button" data-triage="falsidade">
+                    <span class="option-label">Falsidade ou impersonação</span><span class="option-arrow" aria-hidden="true">→</span>
+                </button>
+                <button class="option-button" type="button" data-triage="extorsao">
+                    <span class="option-label">Extorsão digital</span><span class="option-arrow" aria-hidden="true">→</span>
+                </button>
+                <button class="option-button" type="button" data-triage="outro">
+                    <span class="option-label">Outro problema</span><span class="option-arrow" aria-hidden="true">→</span>
+                </button>
+            </div>
+            <p class="privacy-note">
+                As respostas da triagem não são enviadas. Não compartilhe senhas, códigos de autenticação ou dados bancários.
+            </p>
+        </section>
+
+        <section id="crimes-digitais" class="app-page" aria-labelledby="titulo-crimes" hidden>
+            <div class="page-intro">
+                <p class="eyebrow">Biblioteca educativa</p>
+                <h1 id="titulo-crimes">Entenda os crimes digitais</h1>
+                <p>Conteúdo introdutório para reconhecer sinais, reduzir riscos e procurar fontes confiáveis. A descrição de uma situação não determina, por si só, que houve crime.</p>
+            </div>
+            <div id="biblioteca-crimes" class="resource-grid"></div>
+        </section>
+
+        <section id="encontre-ajuda" class="app-page" aria-labelledby="titulo-ajuda" hidden>
+            <div class="page-intro">
+                <p class="eyebrow">Canais de apoio</p>
+                <h1 id="titulo-ajuda">Encontre ajuda</h1>
+                <p>Procure o serviço conforme a situação. Use os canais oficiais e confirme disponibilidade e procedimentos na sua região.</p>
+            </div>
+            <div id="lista-ajuda" class="help-grid"></div>
+        </section>
+
+        <section id="minhas-evidencias" class="app-page" aria-labelledby="titulo-evidencias" hidden>
+            <div class="page-intro">
+                <p class="eyebrow">Organização privada</p>
+                <h1 id="titulo-evidencias">Minhas evidências</h1>
+                <p>Organize referências e anotações sobre evidências. Esta primeira versão não faz upload nem guarda os arquivos; os registros ficam neste navegador.</p>
+            </div>
+            <aside class="urgent-note">
+                <span class="urgent-icon" aria-hidden="true">i</span>
+                <div><strong>Importante sobre privacidade</strong> Os dados ficam no armazenamento local deste navegador e podem ser vistos por outras pessoas que usam este dispositivo. Isso não substitui backup seguro. Evite registrar dados sensíveis.</div>
+            </aside>
+            <form id="form-evidencia" class="surface-card inline-form">
+                <div class="form-grid">
+                    <label class="form-field" for="evidencia-nome">Nome curto
+                        <input id="evidencia-nome" name="nome" maxlength="80" required>
+                    </label>
+                    <label class="form-field" for="evidencia-categoria">Categoria
+                        <select id="evidencia-categoria" name="categoria" required>
+                            <option value="">Selecione</option>
+                            <option>Imagem</option><option>PDF</option><option>Vídeo</option>
+                            <option>Áudio</option><option>Conversa</option><option>E-mail</option>
+                            <option>Link</option><option>Comprovante</option><option>Outros</option>
+                        </select>
+                    </label>
+                    <label class="form-field" for="evidencia-data">Data (opcional)
+                        <input id="evidencia-data" name="data" type="date">
+                    </label>
+                    <label class="form-field" for="evidencia-origem">Origem (opcional)
+                        <input id="evidencia-origem" name="origem" maxlength="120">
+                    </label>
+                </div>
+                <label class="form-field" for="evidencia-descricao">Descrição (opcional)
+                    <textarea id="evidencia-descricao" name="descricao" maxlength="500"></textarea>
+                </label>
+                <label class="form-field" for="evidencia-observacoes">Observações (opcional)
+                    <textarea id="evidencia-observacoes" name="observacoes" maxlength="500"></textarea>
+                </label>
+                <button class="check-button" type="submit">Salvar registro neste navegador</button>
+                <p id="mensagem-evidencias" class="chat-status" role="status"></p>
+            </form>
+            <section class="surface-card" aria-labelledby="titulo-lista-evidencias">
+                <h2 id="titulo-lista-evidencias">Registros salvos</h2>
+                <div id="itens-evidencias"></div>
+            </section>
+        </section>
+
+        <section id="orientacao-juridica" class="app-page" aria-labelledby="titulo-juridico" hidden>
+            <div class="page-intro">
+                <p class="eyebrow">Informação, não diagnóstico</p>
+                <h1 id="titulo-juridico">Orientação jurídica</h1>
+                <p>Os caminhos dependem dos fatos, das provas e das regras aplicáveis. A triagem não determina se ocorreu crime nem substitui aconselhamento jurídico.</p>
+            </div>
+            <div class="resource-grid">
+                <article class="resource-card"><h3>Preserve informações</h3><p>Guarde arquivos originais, conversas, URLs, datas, comprovantes e protocolos. Evite editar ou redistribuir conteúdo íntimo; em conteúdo envolvendo menores, não baixe nem encaminhe imagens.</p></article>
+                <article class="resource-card"><h3>Registro de ocorrência</h3><p>Polícia Civil ou delegacia eletrônica estadual pode orientar sobre registro. Disponibilidade e procedimentos variam por localidade. Em emergência, procure o serviço de emergência, não um formulário online.</p></article>
+                <article class="resource-card"><h3>Orientação profissional</h3><p>A Defensoria Pública pode oferecer orientação conforme os critérios e serviços disponíveis na sua região. Também é possível consultar advogado(a) habilitado(a).</p></article>
+                <article class="resource-card"><h3>Possíveis enquadramentos</h3><p>Uma situação pode envolver diferentes direitos ou tipos de ilícito conforme as circunstâncias. A análise definitiva cabe às autoridades competentes ou a profissional jurídico habilitado.</p></article>
+            </div>
+        </section>
+
+        <section id="apoio-emocional" class="app-page" aria-labelledby="titulo-emocional" hidden>
+            <div class="page-intro">
+                <p class="eyebrow">Acolhimento</p>
+                <h1 id="titulo-emocional">Você não precisa passar por isso sozinho(a)</h1>
+                <p>Se estiver com medo, abalado(a), em crise ou precisando conversar, procure alguém de confiança e serviços de apoio adequados.</p>
+            </div>
+            <div class="help-grid">
+                <article class="help-card">
+                    <h3>CVV — apoio emocional</h3>
+                    <p>O CVV oferece apoio emocional e prevenção do suicídio, de forma voluntária e sigilosa. Não é terapia, diagnóstico ou atendimento médico.</p>
+                    <p>Telefone 188. Em risco imediato, procure o serviço de emergência adequado.</p>
+                    <a class="card-link" href="https://www.cvv.org.br/" target="_blank" rel="noopener noreferrer">Site oficial do CVV</a>
+                </article>
+                <article class="help-card">
+                    <h3>Crianças e adolescentes</h3>
+                    <p>A SaferNet oferece canal de orientação sobre segurança e violações online. O Disque 100 recebe denúncias de violações de direitos humanos, inclusive contra crianças e adolescentes.</p>
+                    <a class="card-link" href="https://new.safernet.org.br/helpline" target="_blank" rel="noopener noreferrer">Helpline SaferNet</a>
+                    <p>Disque 100. Se houver perigo físico imediato, ligue 190.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="assistente" class="app-page" aria-labelledby="titulo-assistente" hidden>
+            <div class="page-intro">
+                <p class="eyebrow">Protótipo sem IA conectada</p>
+                <h1 id="titulo-assistente">Assistente Protege Digital</h1>
+                <p>Esta tela é apenas a interface. Nenhuma mensagem será enviada a uma IA ou servidor.</p>
+            </div>
+            <div class="surface-card">
+                <div id="janela-chat" class="chat-window" aria-live="polite">
+                    <div class="chat-message">Olá! Vou ajudar você a entender o que aconteceu e organizar os próximos passos.</div>
+                    <div class="chat-message">Por enquanto, este assistente não está conectado a uma IA. Use a triagem e os canais oficiais disponíveis no aplicativo.</div>
+                </div>
+                <form id="form-chat" class="inline-form">
+                    <label class="form-field" for="mensagem-chat">Sua mensagem (não inclua senhas, códigos ou dados bancários)
+                        <textarea id="mensagem-chat" maxlength="500" placeholder="Descreva sua situação. Não envie senhas, códigos de autenticação ou dados bancários."></textarea>
+                    </label>
+                    <button class="check-button" type="submit">Testar interface</button>
+                </form>
+                <p id="status-chat" class="chat-status" role="status"></p>
+            </div>
+        </section>
+
+        <section id="fontes" class="app-page" aria-labelledby="titulo-fontes" hidden>
+            <div class="page-intro">
+                <p class="eyebrow">Consulta direta</p>
+                <h1 id="titulo-fontes">Fontes e referências</h1>
+                <p>Links para serviços e órgãos oficiais utilizados como referência. A disponibilidade dos serviços pode variar.</p>
+            </div>
+            <div id="lista-fontes" class="resource-grid"></div>
+        </section>
+
+        <section id="triage-result" class="triage-panel" aria-live="polite" hidden>
+            <div class="triage-heading">
+                <p class="eyebrow">Sua triagem</p>
+                <h1 id="titulo-triagem" tabindex="-1"></h1>
+                <p id="introducao-triagem"></p>
+            </div>
+            <div class="triage-content">
+                <form id="form-triagem">
+                    <fieldset class="content-block">
+                        <legend>Para entender melhor, marque o que se aplica</legend>
+                        <div id="perguntas" class="question-list"></div>
+                        <p class="privacy-note">Responder é opcional. As respostas ficam somente nesta página.</p>
+                        <button class="check-button" type="submit">Ver próximos passos</button>
+                    </fieldset>
+                </form>
+                <div id="resultado-perguntas" class="check-result" role="status" hidden></div>
+                <section class="content-block" aria-labelledby="titulo-acoes">
+                    <h2 id="titulo-acoes">O que fazer agora</h2>
+                    <ol id="passos" class="steps-list"></ol>
+                </section>
+                <section class="content-block" aria-labelledby="titulo-provas">
+                    <h2 id="titulo-provas">Provas para preservar</h2>
+                    <ul id="provas" class="detail-list"></ul>
+                </section>
+                <section class="content-block" aria-labelledby="titulo-canais">
+                    <h2 id="titulo-canais">Canais para procurar ajuda</h2>
+                    <ul id="canais" class="detail-list"></ul>
+                </section>
+                <section class="content-block" aria-labelledby="titulo-enquadramentos">
+                    <h2 id="titulo-enquadramentos">Possíveis enquadramentos</h2>
+                    <p id="aviso-enquadramentos" class="privacy-note">
+                        Dependendo dos fatos, a situação pode envolver as categorias abaixo.
+                        Esta lista não afirma que um crime ocorreu; a análise definitiva cabe
+                        às autoridades competentes ou a um profissional jurídico.
+                    </p>
+                    <ul id="enquadramentos" class="detail-list"></ul>
+                </section>
+                <section class="content-block" aria-labelledby="titulo-cronologia">
+                    <h2 id="titulo-cronologia">Organize seu relato em ordem cronológica</h2>
+                    <p class="privacy-note">
+                        Registre apenas o que você sabe. Data e horário são opcionais; fatos sem
+                        data confirmada aparecerão depois dos fatos datados. Não inclua senhas,
+                        códigos bancários ou dados pessoais desnecessários. O relato fica somente
+                        nesta página e é apagado ao voltar ou fechar a página.
+                    </p>
+                    <form id="form-cronologia" class="chronology-form">
+                        <label class="chronology-field" for="data-fato">
+                            Data e horário (opcional)
+                            <input id="data-fato" name="data" type="datetime-local">
+                        </label>
+                        <label class="chronology-field" for="descricao-fato">
+                            O que aconteceu? Use suas próprias palavras
+                            <textarea id="descricao-fato" name="descricao" maxlength="1000" required></textarea>
+                        </label>
+                        <div class="chronology-actions">
+                            <button class="check-button" type="submit">Adicionar fato</button>
+                            <button id="gerar-relato" class="check-button" type="button">Organizar relato</button>
+                        </div>
+                    </form>
+                    <ol id="lista-cronologia" class="chronology-list"></ol>
+                    <div id="relato-organizado" class="report-output" role="status" hidden></div>
+                </section>
+                <aside class="specialized-note">
+                    <h2>Orientação especializada e jurídica</h2>
+                    <p id="orientacao-especializada"></p>
+                </aside>
+                <aside class="triage-alert">
+                    <strong>Quando procurar ajuda urgente</strong>
+                    <span id="orientacao-urgente"></span>
+                </aside>
+            </div>
+            <button id="botao-voltar" class="back-button" type="button">← Voltar</button>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>
+            As orientações são informativas e não substituem aconselhamento jurídico,
+            atendimento psicológico ou avaliação de autoridades.
+        </p>
+        <p>
+            No Brasil: Polícia Militar 190 (emergência); Polícia Civil 197 (orientações/denúncias,
+            conforme disponibilidade local); Disque 100 para violações de direitos humanos,
+            incluindo violência contra crianças e adolescentes; Ligue 180 para violência contra
+            mulheres. Em risco imediato, use o serviço de emergência adequado.
+        </p>
+    </footer>
+
+    <script>
+        "use strict";
+
+        const triagens = {
+            golpe: {
+                titulo: "Sofri um golpe",
+                introducao: "Golpes podem envolver pagamentos, falsas ofertas, links, ligações ou pedidos de dados. Priorize interromper o contato e proteger seu dinheiro e suas contas.",
+                perguntas: [
+                    "Fiz uma transferência, pagamento, compra ou contratação?",
+                    "Compartilhei senha, código de confirmação, documento ou dado bancário?",
+                    "Cliquei em um link, baixei um arquivo ou instalei um aplicativo indicado por alguém?"
+                ],
+                passos: [
+                    "Interrompa o contato. Não pague taxas para “recuperar” valores e não compartilhe novos códigos ou senhas.",
+                    "Se houve pagamento, contate imediatamente o banco ou meio de pagamento pelo aplicativo, telefone do cartão ou site oficial. Peça o bloqueio/contestação e registre o protocolo; no Pix, pergunte sobre o Mecanismo Especial de Devolução (MED).",
+                    "Guarde comprovantes, conversas, e-mails, números, links, anúncios, datas e protocolos. Faça capturas de tela sem editar e mantenha os arquivos originais.",
+                    "Troque senhas expostas usando um dispositivo confiável, encerre sessões desconhecidas, ative autenticação em dois fatores e avise o banco se dados financeiros foram compartilhados.",
+                    "Registre ocorrência na Polícia Civil, inclusive pela delegacia eletrônica quando disponível em seu estado. Informe a plataforma ou loja onde o golpe ocorreu."
+                ],
+                especializada: "Se houve prejuízo, ameaça ou uso de seus documentos, procure orientação jurídica ou a Defensoria Pública. O banco e a plataforma podem informar procedimentos e prazos; anote protocolos e guarde cópias.",
+                urgente: "Contate o banco imediatamente se dinheiro saiu da conta, se credenciais bancárias foram expostas ou se há transações em andamento. Em ameaça ou risco físico, ligue 190."
+            },
+            conta: {
+                titulo: "Minha conta foi invadida",
+                introducao: "Uma conta comprometida pode ser usada para acessar outros serviços ou aplicar golpes em seus contatos. Recupere o acesso por canais oficiais e proteja as contas relacionadas.",
+                perguntas: [
+                    "Ainda consigo acessar a conta ou o e-mail vinculado?",
+                    "Percebi troca de senha, telefone, e-mail de recuperação ou autenticação?",
+                    "Há mensagens, compras, transferências ou publicações que não reconheço?"
+                ],
+                passos: [
+                    "Acesse a página ou aplicativo oficial digitando o endereço; use o processo de recuperação da própria plataforma. Não use links enviados por desconhecidos.",
+                    "Troque a senha por uma senha única e forte, encerre sessões e dispositivos desconhecidos e revise e-mail, telefone, métodos de recuperação e aplicativos conectados.",
+                    "Ative autenticação em dois fatores, de preferência por aplicativo autenticador ou chave de segurança, e guarde códigos de recuperação em local seguro.",
+                    "Se perdeu acesso ao e-mail ou telefone, contate o provedor e a operadora por canais oficiais; solicite bloqueio de chip ou proteção contra troca não autorizada, se necessário.",
+                    "Guarde alertas de acesso, e-mails de redefinição, mensagens e registros de atividade. Avise seus contatos por outro canal para ignorarem pedidos suspeitos feitos em seu nome.",
+                    "Se houver fraude, extorsão ou acesso a dados sensíveis, registre ocorrência na Polícia Civil e informe a plataforma."
+                ],
+                especializada: "Se a conta envolve trabalho, dados de clientes ou sistemas da organização, avise imediatamente a equipe de TI/segurança. Para prejuízos ou uso indevido de identidade, busque orientação jurídica ou a Defensoria Pública.",
+                urgente: "Fale com o banco imediatamente se a conta invadida dá acesso a serviços financeiros. Se houver ameaça ou risco presencial, procure um local seguro e ligue 190."
+            },
+            ameaca: {
+                titulo: "Sofri ameaça ou coerção",
+                introducao: "Ameaças e coerção devem ser levadas a sério. Você não precisa lidar com isso sozinho(a); priorize sua segurança e preserve registros sem se colocar em risco.",
+                perguntas: [
+                    "A pessoa sabe onde estou ou fez ameaça de violência física?",
+                    "Estão exigindo dinheiro, imagens, senhas ou alguma ação para não divulgar algo?",
+                    "A situação envolve parceiro(a), ex-parceiro(a), familiar ou alguém com acesso presencial a mim?"
+                ],
+                passos: [
+                    "Se houver risco imediato, vá para um local seguro, avise alguém de confiança e ligue 190. Não confronte a pessoa se isso puder aumentar o risco.",
+                    "Preserve mensagens, áudios, e-mails, perfis, números, links, datas e exigências. Faça capturas de tela completas e mantenha cópias em local seguro.",
+                    "Não envie dinheiro, imagens ou códigos sob pressão. Se já enviou, não se culpe: interrompa o contato quando for seguro e procure apoio.",
+                    "Revise privacidade e segurança das contas, desative compartilhamento de localização e troque senhas a partir de um dispositivo seguro. Considere usar um aparelho ao qual a pessoa não tenha acesso.",
+                    "Procure a Polícia Civil para registrar a ocorrência e pedir orientação sobre medidas de proteção. Se a ameaça ocorrer online, denuncie também o perfil/conteúdo à plataforma.",
+                    "Conte a uma pessoa de confiança e procure acolhimento especializado; não enfrente a situação isoladamente."
+                ],
+                especializada: "A Defensoria Pública, serviços de assistência jurídica e centros de atendimento à vítima podem explicar opções legais e medidas protetivas. Mulheres em situação de violência podem ligar 180; o serviço não substitui o 190 em emergência.",
+                urgente: "Ameaça concreta, perseguição presencial, arma ou risco de violência: ligue 190 ou vá a um local protegido. Se houver violência contra mulher, Ligue 180 para orientação; em emergência, 190."
+            },
+            intimidade: {
+                titulo: "Minha intimidade foi exposta",
+                introducao: "A divulgação de conteúdo íntimo sem consentimento é uma violação grave. A culpa não é sua. Preserve provas e peça a remoção sem redistribuir o material.",
+                perguntas: [
+                    "O conteúdo íntimo foi publicado ou enviado a outras pessoas sem meu consentimento?",
+                    "Sei em qual perfil, site, grupo ou aplicativo o conteúdo está?",
+                    "Alguém está exigindo dinheiro, mais imagens ou algo em troca da remoção?"
+                ],
+                passos: [
+                    "Não reenvie nem publique o conteúdo, mesmo para pedir ajuda. Registre URL, nome do perfil, data/hora, mensagens e capturas de tela da publicação.",
+                    "Denuncie o conteúdo na plataforma como divulgação íntima sem consentimento e solicite remoção. Guarde o número de protocolo e os links antes que desapareçam, se puder fazê-lo com segurança.",
+                    "Se houver chantagem, não pague nem envie mais material. Preserve as exigências e bloqueie o contato depois de guardar provas, se isso for seguro.",
+                    "Proteja suas contas: altere senhas, encerre sessões desconhecidas, ative autenticação em dois fatores e revise álbuns, backups e compartilhamentos.",
+                    "Registre ocorrência na Polícia Civil e procure orientação sobre preservação de evidências e medidas cabíveis. Não é necessário compartilhar o conteúdo íntimo publicamente para denunciar.",
+                    "Busque apoio de alguém de confiança e acolhimento psicológico, se desejar."
+                ],
+                especializada: "A Defensoria Pública ou um(a) advogado(a) pode orientar sobre remoção, preservação de provas e medidas legais. Mulheres podem buscar orientação pelo Ligue 180; para conteúdo íntimo envolvendo criança ou adolescente, acione imediatamente o Disque 100 e a Polícia Civil.",
+                urgente: "Se houver ameaça física, perseguição presencial ou risco de violência, ligue 190. Se houver chantagem em curso, guarde as mensagens e procure a Polícia Civil o quanto antes."
+            },
+            perseguicao: {
+                titulo: "Sofri cyberbullying ou perseguição",
+                introducao: "Ataques repetidos, exposição de dados e perseguição online podem afetar sua segurança e bem-estar. Você pode documentar, denunciar e buscar apoio.",
+                perguntas: [
+                    "As mensagens ou publicações são repetidas ou estão aumentando?",
+                    "Publicaram meus dados, localização ou informações de pessoas próximas?",
+                    "A pessoa tentou me encontrar, ameaçou violência ou criou perfis para continuar o contato?"
+                ],
+                passos: [
+                    "Guarde provas antes de bloquear: URLs, perfis, datas, mensagens e capturas de tela com contexto. Não responda se isso puder intensificar a situação.",
+                    "Denuncie cada conteúdo/perfil à plataforma. Depois de preservar evidências, bloqueie ou restrinja o contato e ajuste quem pode comentar, marcar ou enviar mensagens.",
+                    "Remova dados de localização e informações pessoais públicas; altere senhas se houver suspeita de acesso e ative autenticação em dois fatores.",
+                    "Avise uma pessoa de confiança. Em escola ou trabalho, procure um responsável, coordenação, RH ou canal de proteção, preservando os registros.",
+                    "Se houver ameaça, perseguição contínua, divulgação de dados ou prejuízo, registre ocorrência na Polícia Civil e apresente as evidências.",
+                    "Se o impacto estiver afetando sua saúde, procure um serviço de saúde ou apoio psicológico."
+                ],
+                especializada: "A Defensoria Pública pode orientar sobre medidas jurídicas. Se envolver ambiente escolar, procure também a direção e os responsáveis pela proteção dos estudantes. Serviços locais de saúde mental podem oferecer acolhimento.",
+                urgente: "Se a pessoa sabe onde você está, está indo até você ou há ameaça de violência, procure um local seguro, avise alguém de confiança e ligue 190. Para crianças e adolescentes, acione um adulto responsável e o Disque 100."
+            },
+            dados: {
+                titulo: "Meus dados pessoais foram vazados",
+                introducao: "Dados expostos podem ser usados em tentativas de fraude. Reduza o risco protegendo primeiro contas financeiras e canais de recuperação, e registre o que foi divulgado.",
+                perguntas: [
+                    "Sei quais dados foram expostos (por exemplo, telefone, documento, endereço ou senha)?",
+                    "Recebi tentativas de login, mensagens ou cobranças que não reconheço?",
+                    "O vazamento envolve dados de trabalho, clientes, saúde ou de uma criança?"
+                ],
+                passos: [
+                    "Anote onde e quando soube do vazamento e quais dados parecem envolvidos. Guarde avisos, URLs e comunicações; não publique seus dados para provar a exposição.",
+                    "Troque imediatamente senhas reutilizadas ou expostas, começando por e-mail e bancos. Use senhas únicas, encerre sessões e ative autenticação em dois fatores.",
+                    "Contate bancos e serviços financeiros pelos canais oficiais se dados bancários ou documentos foram expostos; monitore movimentações e notificações de crédito.",
+                    "Desconfie de ligações, mensagens e links que usem seus dados para parecer legítimos. Nunca informe códigos de autenticação nem instale aplicativos a pedido de desconhecidos.",
+                    "Peça informações à organização responsável pelo tratamento dos dados e registre protocolos. Se necessário, procure os canais da ANPD para orientações e reclamações.",
+                    "Se houver fraude ou uso de identidade, registre ocorrência na Polícia Civil e informe as instituições envolvidas."
+                ],
+                especializada: "A ANPD orienta sobre proteção de dados pessoais. A Defensoria Pública ou um(a) advogado(a) pode avaliar medidas jurídicas conforme o caso. Em vazamento de dados da empresa, comunique o encarregado de dados ou a equipe de segurança.",
+                urgente: "Contate o banco imediatamente se houver transações suspeitas ou dados de acesso financeiro expostos. Em caso de fraude em andamento ou ameaça, procure as autoridades."
+            },
+            crianca: {
+                titulo: "Criança ou adolescente sofreu violência digital",
+                introducao: "Acolha sem culpar nem pressionar. Explique que a criança ou adolescente pode pedir ajuda e que a responsabilidade é sempre de quem praticou a violência.",
+                perguntas: [
+                    "Há risco de encontro presencial, ameaça ou contato atual com a criança/adolescente?",
+                    "Alguém pediu, recebeu ou divulgou imagens íntimas ou dados pessoais?",
+                    "A violência acontece em rede social, jogo, aplicativo de mensagem ou ambiente escolar?"
+                ],
+                passos: [
+                    "Se houver risco imediato, mantenha a criança/adolescente em segurança e ligue 190. Não confronte o suspeito se isso puder aumentar o perigo.",
+                    "Escute com calma, sem culpabilizar nem fazer perguntas repetidas ou sugestivas. Diga que fez bem em contar e que você vai buscar ajuda.",
+                    "Preserve mensagens, nomes de usuário, links, datas e capturas de tela. Não baixe, copie ou encaminhe imagens de abuso sexual infantil; registre informações do perfil/URL e peça orientação às autoridades.",
+                    "Denuncie o conteúdo à plataforma. Se envolver escola ou colegas, informe a direção e os responsáveis pela proteção da criança, compartilhando apenas o necessário.",
+                    "Procure o Conselho Tutelar, a Polícia Civil ou o Disque 100. Se houver exploração, aliciamento ou imagens íntimas, faça a denúncia prontamente.",
+                    "Proteja contas e dispositivos com ajuda de um adulto de confiança: ajuste privacidade, encerre contatos suspeitos e não apague evidências antes de registrar o que for seguro."
+                ],
+                especializada: "Procure o Conselho Tutelar, serviços de proteção social e atendimento de saúde/psicossocial infantil. O Disque 100 recebe denúncias de violações de direitos humanos. A Polícia Civil pode orientar sobre registro e proteção legal.",
+                urgente: "Perigo imediato, ameaça de encontro, suspeita de abuso presencial ou exploração em curso: ligue 190 e procure a Polícia Civil. Não compartilhe nem encaminhe imagens íntimas de menores."
+            },
+            outro: {
+                titulo: "Outro problema digital",
+                introducao: "Mesmo que sua situação não esteja listada, você pode começar protegendo sua segurança, registrando o que aconteceu e buscando apoio adequado.",
+                perguntas: [
+                    "Há risco imediato à minha segurança ou à de outra pessoa?",
+                    "Perdi acesso a uma conta, houve prejuízo financeiro ou meus dados foram expostos?",
+                    "Tenho mensagens, arquivos, links ou protocolos que ajudem a explicar o ocorrido?"
+                ],
+                passos: [
+                    "Se estiver em perigo, vá para um local seguro e ligue 190; em emergência médica, ligue 192.",
+                    "Anote a sequência dos fatos, datas, horários e serviços envolvidos. Preserve mensagens, URLs, e-mails, comprovantes e protocolos sem alterar os arquivos originais.",
+                    "Proteja dispositivos e contas: atualize senhas expostas, encerre sessões desconhecidas, ative autenticação em dois fatores e revise configurações de privacidade.",
+                    "Contate a plataforma, instituição financeira ou organização envolvida usando canais oficiais. Peça protocolo e guarde todas as respostas.",
+                    "Se houve crime, fraude, ameaça ou prejuízo, procure a Polícia Civil ou a delegacia eletrônica do seu estado.",
+                    "Converse com alguém de confiança e procure orientação jurídica ou serviço especializado conforme a situação."
+                ],
+                especializada: "A Defensoria Pública oferece orientação jurídica gratuita a quem não pode pagar advogado(a). Serviços de saúde, assistência social e organizações de apoio podem acolher situações específicas.",
+                urgente: "Procure autoridades imediatamente se houver ameaça, violência, exploração de criança/adolescente, fraude em andamento ou risco à integridade física."
+            }
+        };
+
+        triagens.falsidade = {
+            titulo: "Falsidade ou impersonação",
+            introducao: "Alguém pode estar usando seu nome, foto ou identidade para enganar outras pessoas. Preserve os registros e avise quem possa ser afetado, sem ampliar a exposição.",
+            perguntas: [
+                "Foi criado um perfil ou endereço usando meu nome, imagem ou dados?",
+                "Alguém recebeu pedidos de dinheiro ou informações feitos em meu nome?",
+                "Há uso de documentos, assinatura ou dados financeiros que não autorizei?"
+            ],
+            passos: [
+                "Registre nome de usuário, URL, data, mensagens e exemplos de contato. Faça capturas de tela e guarde alertas ou notificações recebidas.",
+                "Denuncie o perfil ou conteúdo à plataforma por falsidade/impersonação e guarde o protocolo. Peça a pessoas próximas que não respondam nem façam pagamentos.",
+                "Publique ou envie um aviso curto por canal confiável, se necessário, sem divulgar dados pessoais ou informações que aumentem o risco.",
+                "Se documentos, telefone ou e-mail foram comprometidos, avise as instituições envolvidas por canais oficiais e proteja as contas relacionadas.",
+                "Se houve prejuízo, tentativa de fraude ou uso indevido de identidade, registre ocorrência na Polícia Civil e apresente os registros preservados."
+            ],
+            especializada: "A Defensoria Pública ou um(a) advogado(a) pode orientar sobre medidas para proteger sua identidade e pedir remoção. Se os dados foram obtidos em vazamento, contate também a organização responsável e, quando aplicável, a ANPD.",
+            urgente: "Avise imediatamente o banco se houver movimentação ou tentativa de crédito em seu nome. Se houver ameaça ou risco presencial, procure um local seguro e ligue 190."
+        };
+
+        triagens.extorsao = {
+            titulo: "Extorsão digital",
+            introducao: "Se alguém está exigindo dinheiro, imagens, acesso ou outra ação sob ameaça, priorize sua segurança. A responsabilidade pela ameaça é de quem a faz.",
+            perguntas: [
+                "Estão exigindo pagamento, transferência, imagens, acesso a uma conta ou outra ação?",
+                "A pessoa ameaça divulgar conteúdo, prejudicar alguém ou me encontrar?",
+                "Fiz algum pagamento ou compartilhei dados, imagens ou códigos?"
+            ],
+            passos: [
+                "Se houver risco físico, vá para um local seguro e ligue 190. Não confronte a pessoa se isso puder aumentar o perigo.",
+                "Não faça novos pagamentos nem envie mais conteúdo ou códigos sob pressão. Não pague supostas taxas de recuperação.",
+                "Preserve a exigência completa, perfil, telefone, links, áudios, e-mails, datas e comprovantes. Não edite os arquivos originais.",
+                "Se pagou, ligue imediatamente para o banco ou meio de pagamento pelo canal oficial; informe a transação, peça orientação e guarde o protocolo.",
+                "Proteja as contas a partir de um dispositivo confiável: troque senhas expostas, encerre sessões desconhecidas e ative autenticação em dois fatores.",
+                "Registre ocorrência na Polícia Civil e denuncie o perfil à plataforma depois de preservar os dados necessários."
+            ],
+            especializada: "Procure orientação da Polícia Civil e da Defensoria Pública ou de um(a) advogado(a) sobre preservação de provas e medidas disponíveis. Em divulgação íntima ou ameaça contra criança/adolescente, procure também os canais especializados indicados nesta triagem.",
+            urgente: "Ameaça de violência concreta ou pessoa a caminho: ligue 190. Se houve transferência, contate o banco imediatamente; rapidez pode ser importante para as providências cabíveis."
+        };
+
+        const detalhesTriagem = {
+            golpe: {
+                provas: ["Capturas de tela de anúncios, conversas, perfis, links e e-mails, preservando o contexto.", "Comprovantes, dados da transação, datas/horários e protocolos do banco ou plataforma; não compartilhe dados bancários completos."],
+                canais: ["Banco ou instituição de pagamento, imediatamente, se houve pagamento ou exposição de acesso financeiro.", "Polícia Civil/delegacia eletrônica do estado para registro e orientação; plataforma onde ocorreu o contato.", "Polícia Federal somente quando houver hipótese de competência federal; se tiver dúvida, procure primeiro a Polícia Civil, que poderá orientar ou encaminhar."],
+                enquadramentos: ["Fraude patrimonial ou relação de consumo, conforme a forma do golpe e os fatos.", "Possível uso indevido de dados ou identidade, conforme a conduta."]
+            },
+            conta: {
+                provas: ["Alertas de login, mensagens de redefinição, e-mails, registros de atividade, URLs, datas e protocolos de recuperação.", "Mensagens ou transações feitas sem autorização; não registre nem envie senhas ou códigos de autenticação."],
+                canais: ["Suporte oficial da plataforma e provedor de e-mail/telefonia para recuperar e proteger o acesso.", "Banco, imediatamente, se a conta acessava serviços financeiros ou houve movimentação.", "Polícia Civil se houver fraude, ameaça ou acesso indevido; Polícia Federal pode ser pertinente em hipóteses de competência federal, a avaliar pelas autoridades."],
+                enquadramentos: ["Possível acesso ou uso não autorizado de conta/dispositivo, conforme os meios e circunstâncias.", "Fraude, falsidade ou violação de dados, se houver atos adicionais que possam se enquadrar nessas categorias."]
+            },
+            ameaca: {
+                provas: ["Mensagens completas, áudios, e-mails, perfis, números, URLs, datas/horários e exigências.", "Protocolos de denúncia e nomes de testemunhas, se houver; preserve os arquivos originais em local seguro."],
+                canais: ["Polícia Civil para registro e orientação sobre proteção; 190 em risco imediato.", "Plataforma para denunciar conteúdo/perfil, depois de preservar os registros.", "Ligue 180 para orientação em violência contra mulheres; em emergência, ligue 190. Defensoria Pública para orientação jurídica."],
+                enquadramentos: ["Ameaça, constrangimento ou outras violações à liberdade, conforme o conteúdo, contexto e finalidade.", "Se houver perseguição repetida, possível análise específica da conduta pelas autoridades."]
+            },
+            intimidade: {
+                provas: ["URL, perfil, data/hora, mensagens e capturas de tela da publicação sem redistribuir o material íntimo.", "E-mails e protocolos da plataforma e registros de eventual exigência ou chantagem."],
+                canais: ["Plataforma/site para denúncia e pedido de remoção; guarde protocolos.", "Polícia Civil para registro e orientação; 190 se houver perigo imediato.", "Disque 100 e Conselho Tutelar se envolver criança/adolescente; Defensoria Pública ou profissional jurídico para orientação."],
+                enquadramentos: ["Possível violação à intimidade, à imagem e à privacidade.", "Dependendo do conteúdo, consentimento, idade e conduta, pode haver análise de crimes relacionados à divulgação de conteúdo íntimo ou à violência sexual."]
+            },
+            perseguicao: {
+                provas: ["Capturas de tela com contexto, URLs, nomes de perfil, datas, frequência e mensagens.", "Registros de ameaças, publicação de dados, tentativas de contato presencial e protocolos de denúncia."],
+                canais: ["Polícia Civil para ameaças ou perseguição reiterada; 190 em risco imediato.", "Plataforma para denunciar conteúdo e bloquear após preservar provas; escola ou trabalho se ocorrer nesses ambientes.", "Conselho Tutelar/Disque 100 quando envolver criança ou adolescente; serviço de saúde ou apoio psicológico quando necessário."],
+                enquadramentos: ["Possível bullying ou cyberbullying, conforme repetição e contexto.", "Possível perseguição, ameaça, violação de privacidade ou outra conduta, a depender dos fatos."]
+            },
+            dados: {
+                provas: ["Aviso de incidente, comunicações da organização, URLs, datas e descrição das categorias de dados expostos.", "Tentativas de login, mensagens suspeitas, transações e protocolos; não publique documentos ou dados completos."],
+                canais: ["Organização responsável ou encarregado de dados para pedir informações e registrar protocolo.", "ANPD para orientações e canais oficiais de petição/denúncia, conforme o caso; banco se dados financeiros estiverem envolvidos.", "Polícia Civil se houver fraude ou uso indevido; Polícia Federal apenas quando houver competência federal a ser avaliada."],
+                enquadramentos: ["Possível violação à legislação de proteção de dados e à privacidade; a apuração depende do contexto e das responsabilidades.", "Fraude ou uso indevido de identidade se os dados forem usados para praticar outros atos."]
+            },
+            crianca: {
+                provas: ["Guarde mensagens, nomes de usuário, URLs, datas e protocolos; não baixe nem encaminhe imagens de abuso sexual infantil.", "Registre apenas as informações necessárias para identificar o perfil/conteúdo e informe as autoridades ou serviços de proteção."],
+                canais: ["Conselho Tutelar e Disque 100 para denúncia e proteção de direitos; Polícia Civil para registro e investigação.", "190 em perigo imediato; serviço de saúde/atendimento psicossocial para acolhimento.", "Plataforma para denunciar o conteúdo sem redistribuí-lo. Polícia Federal pode receber denúncias em matérias de sua competência; a autoridade local pode orientar o encaminhamento."],
+                enquadramentos: ["Possíveis violações aos direitos previstos no Estatuto da Criança e do Adolescente.", "Conforme a conduta e o conteúdo, pode haver análise de aliciamento, exploração ou crimes contra a dignidade sexual; não compartilhe material."]
+            },
+            falsidade: {
+                provas: ["URL e nome do perfil/endereço, capturas de tela, mensagens, datas e identificação dos contatos que receberam pedidos.", "Comprovantes e protocolos de instituições se houve tentativa de crédito, pagamento ou uso de documentos."],
+                canais: ["Plataforma para denunciar impersonação e solicitar revisão/remoção.", "Polícia Civil se houve fraude, ameaça ou uso indevido de identidade; banco/serviço financeiro se houver operação.", "Organização responsável e ANPD se a identidade foi usada a partir de dados expostos; Defensoria Pública para orientação jurídica."],
+                enquadramentos: ["Possível falsidade, fraude ou uso indevido de identidade, conforme a intenção e os atos praticados.", "Possíveis questões de imagem, privacidade ou proteção de dados."]
+            },
+            extorsao: {
+                provas: ["Mensagens com a exigência e ameaça completas, e-mails, áudios, perfis, URLs, datas e horários.", "Comprovantes de pagamento e protocolos do banco/plataforma; preserve os originais e não envie novas informações ao autor."],
+                canais: ["Polícia Civil para registro; 190 se houver risco físico imediato.", "Banco ou meio de pagamento imediatamente se houve transferência; plataforma para denunciar o perfil.", "Defensoria Pública/profissional jurídico para orientação; Disque 100/Conselho Tutelar se envolver criança ou adolescente."],
+                enquadramentos: ["Possível extorsão ou ameaça, conforme exigência, constrangimento, finalidade e circunstâncias.", "Se envolver divulgação íntima, pode haver outras violações relacionadas à intimidade e à privacidade."]
+            },
+            outro: {
+                provas: ["Mensagens, capturas de tela com contexto, links, e-mails, arquivos originais, datas/horários e nomes de perfil.", "Comprovantes, protocolos de atendimento e breve registro do que você presenciou; não inclua senhas ou códigos."],
+                canais: ["Polícia Civil/delegacia eletrônica se houver suspeita de crime; 190 em emergência.", "Banco para movimentação ou acesso financeiro; plataforma para abuso ocorrido no serviço.", "ANPD para questões de dados pessoais; Conselho Tutelar/Disque 100 se envolver criança/adolescente; Defensoria Pública para orientação jurídica."],
+                enquadramentos: ["A situação pode envolver direitos de privacidade, proteção de dados, consumo ou outras condutas previstas em lei.", "A categoria aplicável depende dos fatos e deve ser avaliada pelas autoridades ou por profissional jurídico."]
+            }
+        };
+
+        const conteudosEducativos = [
+            { titulo: "Golpes e fraudes", oQue: "Contatos ou ofertas enganosas podem tentar obter dinheiro, dados ou acesso a contas.", exemplo: "Uma mensagem inesperada pede pagamento urgente ou promete um benefício em troca de dados.", sinais: "Pressa, pedido de segredo, link inesperado ou cobrança para liberar um prêmio.", fazer: "Interrompa o contato, confirme por canal oficial e contate o banco rapidamente se pagou.", provas: "Conversa, perfil, URL, e-mail, comprovante, data e protocolos.", ajuda: "Banco/instituição de pagamento, plataforma e Polícia Civil se houver suspeita de fraude.", fonte: "https://www.gov.br/pf/pt-br", rotuloFonte: "Polícia Federal" },
+            { titulo: "Phishing", oQue: "Mensagem ou página que tenta se passar por um serviço confiável para obter dados ou induzir uma ação.", exemplo: "Um e-mail inesperado direciona para uma página que imita o login de um serviço.", sinais: "Endereço estranho, urgência, erros incomuns ou pedido de senha/código.", fazer: "Não clique nem informe dados; acesse o serviço digitando o endereço oficial e proteja a conta se interagiu.", provas: "Mensagem original, remetente, cabeçalhos disponíveis, URL e data.", ajuda: "Suporte oficial do serviço; banco se houver dados financeiros; Polícia Civil conforme os fatos.", fonte: "https://www.safernet.org.br/", rotuloFonte: "SaferNet Brasil" },
+            { titulo: "Invasão de contas ou dispositivos", oQue: "Acesso ou controle de conta/dispositivo sem autorização aparente.", exemplo: "Alertas de acesso desconhecido ou alterações de recuperação que você não fez.", sinais: "Senha alterada, sessões desconhecidas, mensagens enviadas sem seu conhecimento.", fazer: "Use canal oficial de recuperação, troque credenciais expostas em dispositivo confiável e encerre sessões.", provas: "Alertas, e-mails de recuperação, atividade, URLs e protocolos.", ajuda: "Suporte oficial da plataforma/provedor, banco se aplicável e Polícia Civil quando houver fraude ou dano.", fonte: "https://www.gov.br/pf/pt-br", rotuloFonte: "Polícia Federal" },
+            { titulo: "Falsidade ou roubo de identidade", oQue: "Uso do nome, imagem ou dados de alguém para se apresentar como essa pessoa, com possíveis consequências variadas.", exemplo: "Um perfil usa sua foto para contatar conhecidos.", sinais: "Perfis duplicados, pedidos incomuns feitos em seu nome ou cadastro não reconhecido.", fazer: "Guarde evidências, denuncie o perfil na plataforma e avise pessoas potencialmente afetadas por canal confiável.", provas: "URLs, perfis, conversas, datas, avisos e protocolos.", ajuda: "Plataforma, Polícia Civil se houver fraude e organização responsável se dados foram expostos.", fonte: "https://www.gov.br/anpd/pt-br", rotuloFonte: "ANPD — proteção de dados" },
+            { titulo: "Ameaça", oQue: "Comunicação que pode causar temor ou constranger alguém; a avaliação depende do conteúdo e contexto.", exemplo: "Uma mensagem anuncia dano caso a pessoa não cumpra uma exigência.", sinais: "Ameaça concreta, insistência, conhecimento de endereço ou tentativa de aproximação.", fazer: "Priorize segurança física, evite confronto e procure autoridade competente quando necessário.", provas: "Mensagens completas, áudios, perfil, número, data e testemunhas.", ajuda: "Polícia Civil; 190 em risco imediato. Ligue 180 para orientação sobre violência contra mulheres.", fonte: "https://www.gov.br/mdh/pt-br", rotuloFonte: "Ministério dos Direitos Humanos" },
+            { titulo: "Perseguição e cyberbullying", oQue: "Contato, ataques ou exposição repetidos podem afetar segurança, reputação e bem-estar.", exemplo: "Mensagens insistentes ou publicações hostis repetidas em plataformas.", sinais: "Frequência crescente, perfis alternativos, exposição de localização ou tentativa presencial.", fazer: "Registre o padrão, denuncie à plataforma, ajuste privacidade e busque apoio.", provas: "Capturas com contexto, URLs, datas, perfis e protocolos.", ajuda: "Plataforma, Polícia Civil se houver ameaça/perseguição e adulto responsável/Conselho Tutelar para menores.", fonte: "https://new.safernet.org.br/helpline", rotuloFonte: "Helpline SaferNet" },
+            { titulo: "Extorsão digital", oQue: "Exigência de dinheiro, conteúdo ou ação sob ameaça; classificar juridicamente depende de apuração.", exemplo: "Alguém condiciona não divulgar informações a um pagamento.", sinais: "Prazo curto, ameaça de exposição e novas exigências depois de pagar.", fazer: "Não envie novas senhas/códigos; proteja-se, preserve as mensagens e contate o banco se houve pagamento.", provas: "Exigências, conversas, perfis, URLs, datas e comprovantes.", ajuda: "Polícia Civil; banco se houve transação; 190 em risco físico imediato.", fonte: "https://www.gov.br/pf/pt-br", rotuloFonte: "Polícia Federal" },
+            { titulo: "Divulgação não autorizada de conteúdo íntimo", oQue: "Publicação ou compartilhamento de conteúdo íntimo sem autorização pode violar direitos e exigir resposta urgente.", exemplo: "Imagem íntima publicada ou enviada a grupos sem consentimento.", sinais: "Links, mensagens de ameaça, exigência de pagamento ou circulação em grupos.", fazer: "Não redistribua o conteúdo; preserve URL e contexto e denuncie à plataforma para remoção.", provas: "URL, perfil, datas, mensagens e protocolos. Não baixe ou encaminhe conteúdo íntimo envolvendo menores.", ajuda: "Polícia Civil e plataforma; Disque 100/Conselho Tutelar se envolver criança ou adolescente.", fonte: "https://new.safernet.org.br/helpline", rotuloFonte: "Helpline SaferNet" },
+            { titulo: "Vazamento de dados", oQue: "Informações pessoais podem ter sido acessadas ou divulgadas sem autorização ou controle adequado.", exemplo: "Aviso de uma organização informa exposição de dados de clientes.", sinais: "Aviso de incidente, mensagens fraudulentas personalizadas ou tentativas de acesso.", fazer: "Confirme informações com a organização por canal oficial, proteja contas afetadas e monitore riscos.", provas: "Comunicados, datas, URLs, tentativas de acesso e protocolos; não publique documentos completos.", ajuda: "Organização responsável, ANPD para proteção de dados, banco se aplicável e Polícia Civil em caso de fraude.", fonte: "https://www.gov.br/anpd/pt-br", rotuloFonte: "Autoridade Nacional de Proteção de Dados" },
+            { titulo: "Violência contra crianças e adolescentes", oQue: "Situações digitais podem ameaçar direitos, segurança e bem-estar de crianças e adolescentes.", exemplo: "Aliciamento, ameaça, exposição ou contato inadequado por meio de serviço online.", sinais: "Segredo imposto por adulto, ameaça, solicitação de imagens ou encontro presencial.", fazer: "Acolha sem culpar, garanta segurança e busque ajuda. Não compartilhe imagens de abuso sexual infantil.", provas: "Guarde dados do perfil, URLs, mensagens e datas sem baixar ou encaminhar material ilícito.", ajuda: "Conselho Tutelar, Disque 100, Polícia Civil e 190 em perigo imediato.", fonte: "https://www.gov.br/mdh/pt-br", rotuloFonte: "Ministério dos Direitos Humanos" },
+            { titulo: "Ransomware", oQue: "Software malicioso pode bloquear acesso a arquivos ou sistemas e exigir pagamento.", exemplo: "Arquivos deixam de abrir e aparece uma exigência de resgate.", sinais: "Notas de resgate, arquivos alterados e alertas de segurança.", fazer: "Desconecte o dispositivo da rede se puder fazê-lo com segurança; procure suporte técnico confiável e não instale ferramentas enviadas por desconhecidos.", provas: "Mensagem de resgate, horário, arquivos afetados, alertas e protocolos. Evite alterar o dispositivo antes de orientação técnica.", ajuda: "Equipe de TI/segurança da organização, Polícia Civil e canais oficiais de segurança cibernética aplicáveis.", fonte: "https://www.gov.br/pf/pt-br", rotuloFonte: "Polícia Federal" },
+            { titulo: "Engenharia social", oQue: "Técnicas de persuasão ou manipulação podem induzir alguém a revelar dados, transferir dinheiro ou liberar acesso.", exemplo: "Uma pessoa finge ser suporte técnico e pede código temporário.", sinais: "Pedido de segredo, urgência, código de autenticação ou instalação remota.", fazer: "Encerre a conversa e confirme identidade por canal oficial independente.", provas: "Número, perfil, conversa, gravação se já existente, data e protocolos.", ajuda: "Banco ou serviço afetado, plataforma e Polícia Civil conforme consequências.", fonte: "https://www.gov.br/pf/pt-br", rotuloFonte: "Polícia Federal" }
+        ];
+
+        const canaisDeAjuda = [
+            { nome: "Polícia Civil", quando: "Para registrar ocorrência e receber orientação sobre possíveis crimes. A delegacia eletrônica e as unidades variam por estado.", levar: "Relato factual, datas, links, conversas, comprovantes e protocolos.", href: "", rotulo: "Consulte o portal oficial do seu estado." },
+            { nome: "Polícia Federal", quando: "Quando os fatos puderem estar em competência federal; a competência depende do caso e é avaliada pelas autoridades.", levar: "Registros preservados e protocolos. Não é necessário compartilhar senhas.", href: "https://www.gov.br/pf/pt-br", rotulo: "Portal oficial da Polícia Federal" },
+            { nome: "Disque 100", quando: "Denúncias de violações de direitos humanos, incluindo situações envolvendo crianças e adolescentes.", levar: "Descrição do ocorrido e informações necessárias para encaminhamento, se disponíveis.", href: "https://www.gov.br/mdh/pt-br", rotulo: "Ministério dos Direitos Humanos (portal oficial)" },
+            { nome: "Ligue 180", quando: "Orientação e encaminhamento em situações de violência contra mulheres; não substitui emergência.", levar: "Relato do que ocorreu e localidade, se quiser informar.", href: "https://www.gov.br/mulheres/pt-br", rotulo: "Ministério das Mulheres (portal oficial)" },
+            { nome: "ANPD", quando: "Questões relacionadas à proteção de dados pessoais e direitos de titulares, conforme canais e competências da Autoridade.", levar: "Comunicações da organização, datas, descrição do incidente e protocolos, sem publicar dados sensíveis.", href: "https://www.gov.br/anpd/pt-br", rotulo: "Portal oficial da ANPD" },
+            { nome: "SaferNet — Helpline", quando: "Orientação online sobre violações e segurança na internet; consulte a página para conhecer o escopo do atendimento.", levar: "Descrição do problema e links relevantes. Não envie senhas nem material íntimo de menores.", href: "https://new.safernet.org.br/helpline", rotulo: "Helpline oficial da SaferNet" },
+            { nome: "CVV", quando: "Apoio emocional e prevenção do suicídio. Não oferece terapia, diagnóstico ou atendimento médico.", levar: "Não é necessário preparar documentos; procure o canal de atendimento listado no site.", href: "https://www.cvv.org.br/", rotulo: "Site oficial do CVV — telefone 188" },
+            { nome: "Defensoria Pública", quando: "Para orientação jurídica e assistência, conforme critérios de atendimento e organização do estado.", levar: "Relato e documentos relevantes disponíveis; não compartilhe senhas/códigos.", href: "https://www.dpu.def.br/", rotulo: "Defensoria Pública da União" },
+            { nome: "Banco ou instituição financeira", quando: "Imediatamente diante de transação suspeita, fraude ou exposição de credenciais financeiras.", levar: "Data, valor, comprovantes e protocolo. Use o app, cartão ou site oficial; nunca informe senha ou código a terceiros.", href: "", rotulo: "Use somente o canal oficial da sua instituição." },
+            { nome: "Plataforma onde ocorreu o problema", quando: "Para denunciar perfil/conteúdo, pedir recuperação de conta ou remoção.", levar: "URL, nome do perfil, data e capturas de tela. Acesse o app/site oficial diretamente.", href: "", rotulo: "Use a central de ajuda oficial do serviço." },
+            { nome: "Conselho Tutelar", quando: "Quando houver suspeita ou relato de violação de direitos de criança ou adolescente. O contato é local.", levar: "Relato e informações necessárias para proteção. Não encaminhe material íntimo de menores.", href: "", rotulo: "Consulte o Conselho Tutelar do município." }
+        ];
+
+        const fontesOficiais = [
+            { nome: "Autoridade Nacional de Proteção de Dados (ANPD)", href: "https://www.gov.br/anpd/pt-br", descricao: "Orientações e informações sobre proteção de dados pessoais." },
+            { nome: "Polícia Federal", href: "https://www.gov.br/pf/pt-br", descricao: "Portal oficial e serviços da Polícia Federal." },
+            { nome: "SaferNet — Helpline", href: "https://new.safernet.org.br/helpline", descricao: "Canal de orientação sobre situações relacionadas à internet." },
+            { nome: "CVV", href: "https://www.cvv.org.br/", descricao: "Informações sobre apoio emocional e canais de atendimento." },
+            { nome: "Defensoria Pública da União", href: "https://www.dpu.def.br/", descricao: "Portal institucional da DPU. Para atendimento estadual, consulte a Defensoria do seu estado." },
+            { nome: "Ministério dos Direitos Humanos e da Cidadania", href: "https://www.gov.br/mdh/pt-br", descricao: "Portal institucional; consulte informações atualizadas sobre Disque 100." },
+            { nome: "Ministério das Mulheres", href: "https://www.gov.br/mulheres/pt-br", descricao: "Portal institucional; consulte informações atualizadas sobre Ligue 180." }
+        ];
+
+        const paginas = ["inicio", "pagina-triagem", "crimes-digitais", "encontre-ajuda", "minhas-evidencias", "orientacao-juridica", "apoio-emocional", "assistente", "fontes"];
+        const chaveEvidencias = "protegeDigitalEvidenceV1";
+        let registrosEvidencias = [];
+
+        const telaInicio = document.getElementById("inicio");
+        const telaMenuTriagem = document.getElementById("pagina-triagem");
+        const telaTriagem = document.getElementById("triage-result");
+        const tituloTriagem = document.getElementById("titulo-triagem");
+        const introducaoTriagem = document.getElementById("introducao-triagem");
+        const perguntas = document.getElementById("perguntas");
+        const passos = document.getElementById("passos");
+        const orientacaoEspecializada = document.getElementById("orientacao-especializada");
+        const orientacaoUrgente = document.getElementById("orientacao-urgente");
+        const resultadoPerguntas = document.getElementById("resultado-perguntas");
+        const formularioTriagem = document.getElementById("form-triagem");
+        const formularioCronologia = document.getElementById("form-cronologia");
+        const listaCronologia = document.getElementById("lista-cronologia");
+        const relatoOrganizado = document.getElementById("relato-organizado");
+        const fatosCronologicos = [];
+
+        function criarCartaoEducativo(conteudo) {
+            const article = document.createElement("article");
+            const details = document.createElement("details");
+            const summary = document.createElement("summary");
+            const campos = [
+                ["O que é", conteudo.oQue],
+                ["Exemplo", conteudo.exemplo],
+                ["Sinais de alerta", conteudo.sinais],
+                ["O que fazer", conteudo.fazer],
+                ["Provas para preservar", conteudo.provas],
+                ["Onde buscar ajuda", conteudo.ajuda]
+            ];
+
+            article.className = "resource-card";
+            summary.textContent = conteudo.titulo;
+            details.appendChild(summary);
+            campos.forEach(function (campo) {
+                const paragrafo = document.createElement("p");
+                const forte = document.createElement("strong");
+                forte.textContent = campo[0] + ": ";
+                paragrafo.append(forte, document.createTextNode(campo[1]));
+                details.appendChild(paragrafo);
+            });
+
+            const link = document.createElement("a");
+            link.className = "card-link";
+            link.href = conteudo.fonte;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = "Fonte: " + conteudo.rotuloFonte;
+            details.appendChild(link);
+            article.appendChild(details);
+            return article;
+        }
+
+        function renderizarBiblioteca() {
+            const biblioteca = document.getElementById("biblioteca-crimes");
+            biblioteca.replaceChildren();
+            conteudosEducativos.forEach(function (conteudo) {
+                biblioteca.appendChild(criarCartaoEducativo(conteudo));
+            });
+        }
+
+        function renderizarCanais() {
+            const lista = document.getElementById("lista-ajuda");
+            lista.replaceChildren();
+
+            canaisDeAjuda.forEach(function (canal) {
+                const article = document.createElement("article");
+                const titulo = document.createElement("h3");
+                const quando = document.createElement("p");
+                const levar = document.createElement("p");
+                const link = canal.href ? document.createElement("a") : document.createElement("p");
+
+                article.className = "help-card";
+                titulo.textContent = canal.nome;
+                quando.textContent = "Quando procurar: " + canal.quando;
+                levar.textContent = "O que levar: " + canal.levar;
+                link.className = canal.href ? "card-link" : "";
+                if (canal.href) {
+                    link.href = canal.href;
+                    link.target = "_blank";
+                    link.rel = "noopener noreferrer";
+                    link.textContent = canal.rotulo;
+                } else {
+                    link.textContent = canal.rotulo;
+                }
+
+                article.append(titulo, quando, levar, link);
+                lista.appendChild(article);
+            });
+        }
+
+        function renderizarFontes() {
+            const lista = document.getElementById("lista-fontes");
+            lista.replaceChildren();
+
+            fontesOficiais.forEach(function (fonte) {
+                const article = document.createElement("article");
+                const titulo = document.createElement("h3");
+                const descricao = document.createElement("p");
+                const link = document.createElement("a");
+
+                article.className = "resource-card";
+                titulo.textContent = fonte.nome;
+                descricao.textContent = fonte.descricao;
+                link.className = "card-link";
+                link.href = fonte.href;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.textContent = "Abrir página oficial";
+                article.append(titulo, descricao, link);
+                lista.appendChild(article);
+            });
+        }
+
+        function mostrarStatusEvidencias(mensagem) {
+            document.getElementById("mensagem-evidencias").textContent = mensagem;
+        }
+
+        function lerEvidenciasLocais() {
+            try {
+                const dados = window.localStorage.getItem(chaveEvidencias);
+                if (dados === null) {
+                    registrosEvidencias = [];
+                    return true;
+                }
+
+                const registros = JSON.parse(dados);
+                const valido = Array.isArray(registros) && registros.every(function (registro) {
+                    return registro &&
+                        typeof registro.id === "string" &&
+                        typeof registro.nome === "string" &&
+                        typeof registro.categoria === "string" &&
+                        typeof registro.data === "string" &&
+                        typeof registro.origem === "string" &&
+                        typeof registro.descricao === "string" &&
+                        typeof registro.observacoes === "string";
+                });
+
+                if (!valido) {
+                    throw new Error("Os registros locais têm um formato inesperado.");
+                }
+
+                registrosEvidencias = registros;
+                return true;
+            } catch (erro) {
+                mostrarStatusEvidencias("Não foi possível ler o armazenamento local. Seus registros não foram alterados. Erro: " + erro.message);
+                document.getElementById("form-evidencia").querySelector("button[type='submit']").disabled = true;
+                return false;
+            }
+        }
+
+        function renderizarEvidencias() {
+            const container = document.getElementById("itens-evidencias");
+            container.replaceChildren();
+
+            if (registrosEvidencias.length === 0) {
+                const vazio = document.createElement("p");
+                vazio.className = "privacy-note";
+                vazio.textContent = "Ainda não há registros neste navegador.";
+                container.appendChild(vazio);
+                return;
+            }
+
+            registrosEvidencias.forEach(function (registro) {
+                const item = document.createElement("article");
+                const informacoes = document.createElement("div");
+                const titulo = document.createElement("h3");
+                const categoriaData = document.createElement("p");
+                const descricao = document.createElement("p");
+                const origem = document.createElement("p");
+                const observacoes = document.createElement("p");
+                const remover = document.createElement("button");
+
+                item.className = "evidence-item";
+                titulo.textContent = registro.nome;
+                categoriaData.textContent = registro.categoria + (registro.data ? " · " + registro.data : "");
+                descricao.textContent = registro.descricao ? "Descrição: " + registro.descricao : "";
+                origem.textContent = registro.origem ? "Origem: " + registro.origem : "";
+                observacoes.textContent = registro.observacoes ? "Observações: " + registro.observacoes : "";
+                remover.type = "button";
+                remover.className = "delete-button";
+                remover.dataset.evidenceId = registro.id;
+                remover.textContent = "Remover";
+                informacoes.append(titulo, categoriaData);
+                [descricao, origem, observacoes].forEach(function (paragrafo) {
+                    if (paragrafo.textContent) {
+                        informacoes.appendChild(paragrafo);
+                    }
+                });
+                item.append(informacoes, remover);
+                container.appendChild(item);
+            });
+        }
+
+        function salvarEvidenciasLocais(registros) {
+            try {
+                window.localStorage.setItem(chaveEvidencias, JSON.stringify(registros));
+                registrosEvidencias = registros;
+                renderizarEvidencias();
+                return true;
+            } catch (erro) {
+                mostrarStatusEvidencias("Não foi possível salvar no navegador. Verifique o espaço disponível ou as permissões. Erro: " + erro.message);
+                return false;
+            }
+        }
+
+        function criarElementoMensagemChat(texto, ehUsuario) {
+            const mensagem = document.createElement("div");
+            mensagem.className = ehUsuario ? "chat-message user-message" : "chat-message";
+            mensagem.textContent = texto;
+            return mensagem;
+        }
+
+        function criarLista(elemento, itens) {
+            elemento.replaceChildren();
+
+            itens.forEach(function (texto) {
+                const item = document.createElement("li");
+                item.textContent = texto;
+                elemento.appendChild(item);
+            });
+        }
+
+        function limparCronologia() {
+            fatosCronologicos.length = 0;
+            listaCronologia.replaceChildren();
+            relatoOrganizado.replaceChildren();
+            relatoOrganizado.hidden = true;
+            formularioCronologia.reset();
+        }
+
+        function ordenarFatos() {
+            return fatosCronologicos.slice().sort(function (primeiro, segundo) {
+                if (!primeiro.data && !segundo.data) {
+                    return primeiro.indice - segundo.indice;
+                }
+                if (!primeiro.data) {
+                    return 1;
+                }
+                if (!segundo.data) {
+                    return -1;
+                }
+                return primeiro.data.localeCompare(segundo.data) || primeiro.indice - segundo.indice;
+            });
+        }
+
+        function renderizarCronologia() {
+            listaCronologia.replaceChildren();
+
+            ordenarFatos().forEach(function (fato) {
+                const item = document.createElement("li");
+                const data = document.createElement("span");
+                const descricao = document.createElement("span");
+
+                data.className = "chronology-date";
+                data.textContent = fato.data
+                    ? new Date(fato.data).toLocaleString("pt-BR")
+                    : "Data não informada";
+                descricao.textContent = fato.descricao;
+                item.append(data, descricao);
+                listaCronologia.appendChild(item);
+            });
+        }
+
+        function organizarRelato() {
+            const fatosOrdenados = ordenarFatos();
+            relatoOrganizado.replaceChildren();
+            const paragrafo = document.createElement("p");
+
+            if (fatosOrdenados.length === 0) {
+                paragrafo.textContent = "Adicione ao menos um fato para organizar o relato.";
+            } else {
+                paragrafo.textContent = fatosOrdenados.map(function (fato) {
+                    const data = fato.data
+                        ? new Date(fato.data).toLocaleString("pt-BR")
+                        : "Data não informada";
+                    return data + " — " + fato.descricao;
+                }).join("\n");
+            }
+
+            relatoOrganizado.appendChild(paragrafo);
+            relatoOrganizado.hidden = false;
+        }
+
+        function mostrarTriagem(tipo) {
+            const triagem = triagens[tipo];
+            const detalhes = detalhesTriagem[tipo];
+
+            if (!triagem || !detalhes) {
+                return;
+            }
+
+            limparCronologia();
+            tituloTriagem.textContent = triagem.titulo;
+            introducaoTriagem.textContent = triagem.introducao;
+            orientacaoEspecializada.textContent = triagem.especializada;
+            orientacaoUrgente.textContent = triagem.urgente;
+            criarLista(passos, triagem.passos);
+            criarLista(document.getElementById("provas"), detalhes.provas);
+            criarLista(document.getElementById("canais"), detalhes.canais);
+            criarLista(document.getElementById("enquadramentos"), detalhes.enquadramentos);
+            perguntas.replaceChildren();
+            resultadoPerguntas.hidden = true;
+            resultadoPerguntas.replaceChildren();
+
+            triagem.perguntas.forEach(function (texto, indice) {
+                const label = document.createElement("label");
+                const checkbox = document.createElement("input");
+                const span = document.createElement("span");
+
+                label.className = "question-option";
+                checkbox.type = "checkbox";
+                checkbox.name = "resposta";
+                checkbox.value = String(indice);
+                span.textContent = texto;
+                label.append(checkbox, span);
+                perguntas.appendChild(label);
+            });
+
+            telaMenuTriagem.hidden = true;
+            telaTriagem.hidden = false;
+            tituloTriagem.focus();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        document.querySelector(".options-grid").addEventListener("click", function (event) {
+            const botao = event.target.closest("button[data-triage]");
+
+            if (botao) {
+                mostrarTriagem(botao.dataset.triage);
+            }
+        });
+
+        document.querySelector(".nav-inner").addEventListener("click", function (event) {
+            const botao = event.target.closest("[data-page-link]");
+            if (botao) {
+                mostrarPagina(botao.dataset.pageLink);
+            }
+        });
+
+        document.querySelector(".page-actions").addEventListener("click", function (event) {
+            const botao = event.target.closest("[data-page-link]");
+            if (botao) {
+                mostrarPagina(botao.dataset.pageLink);
+            }
+        });
+
+        function mostrarPagina(id) {
+            if (!paginas.includes(id)) {
+                return;
+            }
+
+            paginas.forEach(function (paginaId) {
+                document.getElementById(paginaId).hidden = paginaId !== id;
+            });
+            telaTriagem.hidden = true;
+            document.querySelectorAll(".nav-button[data-page-link]").forEach(function (botao) {
+                if (botao.dataset.pageLink === id) {
+                    botao.setAttribute("aria-current", "page");
+                } else {
+                    botao.removeAttribute("aria-current");
+                }
+            });
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        formularioTriagem.addEventListener("submit", function (event) {
+            event.preventDefault();
+            const marcadas = perguntas.querySelectorAll('input[name="resposta"]:checked').length;
+            const total = perguntas.querySelectorAll('input[name="resposta"]').length;
+            const mensagem = document.createElement("p");
+
+            mensagem.textContent = marcadas > 0
+                ? "Você marcou " + marcadas + " de " + total + " pontos. Use essa lista para explicar a situação ao serviço de apoio ou às autoridades; ela não substitui uma avaliação profissional."
+                : "Nenhuma resposta foi marcada. Você pode seguir as orientações abaixo mesmo assim; responder é opcional.";
+            resultadoPerguntas.replaceChildren(mensagem);
+            resultadoPerguntas.hidden = false;
+        });
+
+        formularioCronologia.addEventListener("submit", function (event) {
+            event.preventDefault();
+            const data = document.getElementById("data-fato").value;
+            const descricao = document.getElementById("descricao-fato").value.trim();
+
+            if (!descricao) {
+                document.getElementById("descricao-fato").focus();
+                return;
+            }
+
+            fatosCronologicos.push({
+                data: data,
+                descricao: descricao,
+                indice: fatosCronologicos.length
+            });
+            renderizarCronologia();
+            formularioCronologia.reset();
+            document.getElementById("descricao-fato").focus();
+        });
+
+        document.getElementById("gerar-relato").addEventListener("click", organizarRelato);
+
+        document.getElementById("form-evidencia").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const formulario = event.currentTarget;
+            const campos = new FormData(formulario);
+            const registro = {
+                id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+                nome: String(campos.get("nome") || "").trim(),
+                categoria: String(campos.get("categoria") || ""),
+                data: String(campos.get("data") || ""),
+                origem: String(campos.get("origem") || "").trim(),
+                descricao: String(campos.get("descricao") || "").trim(),
+                observacoes: String(campos.get("observacoes") || "").trim()
+            };
+
+            if (!registro.nome || !registro.categoria) {
+                mostrarStatusEvidencias("Informe o nome e selecione uma categoria.");
+                return;
+            }
+
+            if (salvarEvidenciasLocais(registrosEvidencias.concat(registro))) {
+                formulario.reset();
+                mostrarStatusEvidencias("Registro salvo somente neste navegador. Nenhum arquivo foi enviado ou guardado.");
+            }
+        });
+
+        document.getElementById("itens-evidencias").addEventListener("click", function (event) {
+            const botao = event.target.closest("button[data-evidence-id]");
+            if (!botao) {
+                return;
+            }
+            const atualizados = registrosEvidencias.filter(function (registro) {
+                return registro.id !== botao.dataset.evidenceId;
+            });
+            if (salvarEvidenciasLocais(atualizados)) {
+                mostrarStatusEvidencias("Registro removido do armazenamento local deste navegador.");
+            }
+        });
+
+ document.getElementById("form-chat").addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const campo = document.getElementById("mensagem-chat");
+    const mensagem = campo.value.trim();
+
+    if (!mensagem) {
+        return;
+    }
+
+    const janela = document.getElementById("janela-chat");
+
+    janela.appendChild(criarElementoMensagemChat(mensagem, true));
+    campo.value = "";
+
+    document.getElementById("status-chat").textContent = "Conectando ao Protege Digital...";
+
+    try {
+        const resposta = await fetch("http://127.0.0.1:5000/api/assistente", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                mensagem: mensagem
+            })
+        });
+
+        const dados = await resposta.json().catch(function () {
+            return {};
+        });
+
+        if (!resposta.ok) {
+            throw new Error(
+                dados.resposta ||
+                "O backend respondeu com o status " + resposta.status + "."
+            );
+        }
+
+        janela.appendChild(
+            criarElementoMensagemChat(
+                dados.resposta || "Não consegui obter uma resposta.",
+                false
+            )
+        );
+
+        document.getElementById("status-chat").textContent =
+            "Protege Digital conectado ao backend.";
+
+    } catch (erro) {
+        const falhaDeRede = erro instanceof TypeError;
+        const mensagemErro = falhaDeRede
+            ? "Não foi possível conectar ao Protege Digital. Verifique se o Flask está rodando em http://127.0.0.1:5000."
+            : erro.message;
+
+        janela.appendChild(
+            criarElementoMensagemChat(
+                mensagemErro,
+                false
+            )
+        );
+
+        document.getElementById("status-chat").textContent =
+            falhaDeRede ? "Erro de conexão com o servidor." : "O backend respondeu com um erro.";
+    }
+
+    janela.scrollTop = janela.scrollHeight;
+});
+
+        document.getElementById("botao-voltar").addEventListener("click", function () {
+            telaTriagem.hidden = true;
+            telaMenuTriagem.hidden = false;
+            resultadoPerguntas.hidden = true;
+            resultadoPerguntas.replaceChildren();
+            limparCronologia();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            document.getElementById("titulo-menu-triagem").focus();
+        });
+
+        renderizarBiblioteca();
+        renderizarCanais();
+        renderizarFontes();
+        lerEvidenciasLocais();
+        renderizarEvidencias();
+        fetch("http://127.0.0.1:5000/")
+    .then(response => response.json())
+    .then(data => {
+        console.log("Resposta do Python:", data);
+    })
+    .catch(error => {
+        console.error("Erro ao conectar com Python:", error);
+    });
+    </script>
+</body>
+</html>
