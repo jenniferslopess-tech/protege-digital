@@ -1783,7 +1783,7 @@
     document.getElementById("status-chat").textContent = "Conectando ao Protege Digital...";
 
     try {
-        const resposta = await fetch("http://127.0.0.1:5000/api/assistente", {
+        const resposta = await fetch("https://protege-digital-1.onrender.com/api/assistente", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
